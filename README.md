@@ -42,7 +42,7 @@ grunt.initConfig({
 ### Options
 
 #### options.test
-Type: any
+Type: any  
 Default value: `true`
 
 Specifies test or array of tests that should be passed to run a task.
@@ -60,7 +60,7 @@ The task described in `task` option will be run only if:
 * result of any test has `true` value when `testConnect` option is `or`
 
 #### options.testConnect
-Type: `String`
+Type: `String`  
 Default value: `and`
 
 A boolean connector that should be used when array of tests is specified in `test` option.
@@ -76,9 +76,8 @@ If a function is set as task, the following parameters will be passed into the f
 * reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
 * reference to `grunt` object
 
-### Usage Examples
+### Usage Example
 
-#### Default Options
 In this example, the `concat` task will be run only if directory specified by `configDir` configuration parameter exists.
 
 ```js
