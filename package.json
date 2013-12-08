@@ -1,0 +1,47 @@
+{
+  "name": "grunt-pretest",
+  "description": "Grunt plugin to run task only when specified tests are passed",
+  "version": "0.0.1",
+  "homepage": "https://github.com/gamtiq/grunt-pretest",
+  "author": {
+    "name": "Denis Sikuler"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gamtiq/grunt-pretest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gamtiq/grunt-pretest/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/gamtiq/grunt-pretest/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt": "~0.4.2"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "keywords": [
+    "gruntplugin",
+    "pretest",
+    "preliminary",
+    "condition",
+    "test",
+    "before",
+    "task",
+    "run"
+  ]
+}
