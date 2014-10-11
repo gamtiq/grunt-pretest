@@ -93,6 +93,11 @@ grunt.initConfig({
 
 See `Gruntfile.js` for more examples.
 
+## Related projects
+
+* [grunt-init-pack](https://github.com/gamtiq/grunt-init-pack)
+* [grunt-uniator](https://github.com/gamtiq/grunt-uniator)
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
