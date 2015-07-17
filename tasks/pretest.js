@@ -2,7 +2,7 @@
  * grunt-pretest
  * https://github.com/gamtiq/grunt-pretest
  *
- * Copyright (c) 2013 Denis Sikuler
+ * Copyright (c) 2013-2015 Denis Sikuler
  * Licensed under the MIT license.
  */
 

@@ -2,6 +2,9 @@
 
 > Grunt plugin to run task only when specified tests are passed.
 
+[![NPM version](https://badge.fury.io/js/grunt-pretest.png)](http://badge.fury.io/js/grunt-pretest)
+[![License](https://img.shields.io/npm/l/grunt-pretest.svg)](https://raw.githubusercontent.com/gamtiq/grunt-pretest/master/LICENSE-MIT)
+
 ## Getting Started
 This plugin requires Grunt `~0.4.2`
 
