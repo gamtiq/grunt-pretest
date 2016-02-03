@@ -109,5 +109,53 @@ exports.pretest = {
         test.strictEqual(grunt.config.get('p_list_or_fail'), null, 'should not run task.');
     
         test.done();
+    },
+    
+    test_no_task: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_no_task'), 'no-task', 'should not run task.');
+    
+        test.done();
+    },
+    
+    test_return_task: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_return_task'), 'ok', 'should run task.');
+    
+        test.done();
+    },
+    
+    test_override_task: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_override_task'), 'from-test', 'should run task returned from test.');
+    
+        test.done();
+    },
+    
+    test_return_task_list: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_return_task_list'), 'c3', 'should run tasks.');
+    
+        test.done();
+    },
+    
+    test_return_task_func: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_return_task_func'), 101, 'should run task.');
+    
+        test.done();
+    },
+    
+    test_return_func_return_task: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_return_func_return_task'), 'e4', 'should run tasks.');
+    
+        test.done();
     }
 };

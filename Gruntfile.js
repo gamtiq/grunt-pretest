@@ -2,7 +2,7 @@
  * grunt-pretest
  * https://github.com/gamtiq/grunt-pretest
  *
- * Copyright (c) 2013-2015 Denis Sikuler
+ * Copyright (c) 2013-2016 Denis Sikuler
  * Licensed under the MIT license.
  */
 
@@ -35,6 +35,12 @@ module.exports = function(grunt) {
         p_list_and_fail: 10,
         p_list_or_pass: null,
         p_list_or_fail: null,
+        p_no_task: 'no-task',
+        p_return_task: '',
+        p_override_task: 'original',
+        p_return_task_list: 123,
+        p_return_task_func: null,
+        p_return_func_return_task: 'e1',
         
         // Configuration to be run (and then tested).
         pretest: {
@@ -152,6 +158,88 @@ module.exports = function(grunt) {
                            ],
                     testConnect: 'or',
                     task: 'set-param:p_list_or_fail:value'
+                }
+            },
+            
+            test_no_task: {
+                options: {
+                    test: function(task, preTask, grunt) {
+                        return true;
+                    }
+                }
+            },
+            
+            test_return_task: {
+                options: {
+                    test: function(task, preTask, grunt) {
+                        return 'set-param:p_return_task:ok';
+                    }
+                }
+            },
+            
+            test_override_task: {
+                options: {
+                    test: function(task, preTask, grunt) {
+                        return 'set-param:p_override_task:from-test';
+                    },
+                    task: 'set-param:p_override_task:usual'
+                }
+            },
+            
+            test_return_task_list: {
+                options: {
+                    test: [
+                            function(task, preTask, grunt) {
+                                return 'set-param:p_return_task_list:a1';
+                            },
+                            function(task, preTask, grunt) {
+                                return true;
+                            },
+                            function(task, preTask, grunt) {
+                                return ['set-param:p_return_task_list:b2', 'set-param:p_return_task_list:c3'];
+                            },
+                            function(task, preTask, grunt) {
+                                return [];
+                            },
+                            function(task, preTask, grunt) {
+                                return 1;
+                            }
+                           ]
+                },
+            },
+            
+            test_return_task_func: {
+                options: {
+                    test: [
+                            function(task, preTask, grunt) {
+                                return '';
+                            },
+                            function(task, preTask, grunt) {
+                                return null;
+                            },
+                            function(task, preTask, grunt) {
+                                return function setParam(preTask, grunt) {
+                                    grunt.config.set('p_return_task_func', 101);
+                                };
+                            },
+                            function(task, preTask, grunt) {
+                                return [];
+                            },
+                            function(task, preTask, grunt) {
+                                return -5;
+                            }
+                           ],
+                    testConnect: 'or'
+                }
+            },
+            
+            test_return_func_return_task: {
+                options: {
+                    test: function(task, preTask, grunt) {
+                        return function getTaskList(preTask, grunt) {
+                            return ['set-param:p_return_func_return_task:e2', 'set-param:p_return_func_return_task:e4'];
+                        };
+                    }
                 }
             }
         },

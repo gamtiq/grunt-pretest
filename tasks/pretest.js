@@ -2,7 +2,7 @@
  * grunt-pretest
  * https://github.com/gamtiq/grunt-pretest
  *
- * Copyright (c) 2013-2015 Denis Sikuler
+ * Copyright (c) 2013-2016 Denis Sikuler
  * Licensed under the MIT license.
  */
 
@@ -20,13 +20,13 @@ module.exports = function(grunt) {
             task = options.task,
             sConnector = options.testConnect,
             bRun = true,
-            bAnd, nI, nL, result, test;
+            bAnd, bFuncTest, nI, nL, result, sType, test;
         
         grunt.log.writeln('pretest start');
         grunt.verbose.writeln('pretest: test - ' + testList);
         grunt.verbose.writeln('pretest: test connector - ' + sConnector);
         grunt.verbose.writeln('pretest: task - ' + task);
-        if (testList && task) {
+        if (testList) {
             if (! Array.isArray(testList)) {
                 testList = [testList];
             }
@@ -44,17 +44,18 @@ module.exports = function(grunt) {
             grunt.log.writeln('pretest: do test(s)');
             for (nI = 0, nL = testList.length; nI < nL; nI++) {
                 test = testList[nI];
-                if (! Boolean( result = (typeof test === 'function' ? test(task, this, grunt) : test) )) {
+                bFuncTest = typeof test === 'function';
+                if (! Boolean( result = (bFuncTest ? test(task, this, grunt) : test) )) {
                     grunt.log.writeln([
-                                       'pretest: test #', 
-                                       (nI + 1), 
-                                       ' is not passed. test result - ', 
+                                       'pretest: test #',
+                                       (nI + 1),
+                                       ' is not passed. test result - ',
                                        result
                                        ].join(''));
                     grunt.verbose.writeln([
-                                           'pretest: test #', 
-                                           (nI + 1), 
-                                           ' - ', 
+                                           'pretest: test #',
+                                           (nI + 1),
+                                           ' - ',
                                            test
                                            ].join(''));
                     bRun = false;
@@ -62,20 +63,35 @@ module.exports = function(grunt) {
                         break;
                     }
                 }
-                else if (! bAnd) {
-                    bRun = true;
-                    break;
+                else {
+                    grunt.verbose.writeln([
+                                           'pretest: test #',
+                                           (nI + 1),
+                                           ' is passed. test result - ',
+                                           result
+                                           ].join(''));
+                    sType = typeof result;
+                    if (bFuncTest && (sType === 'string' || sType === 'function' || (Array.isArray(result) && result.length))) {
+                        task = result;
+                    }
+                    if (! bAnd) {
+                        bRun = true;
+                        break;
+                    }
                 }
             }
             
-            if (bRun) {
+            if (bRun && task) {
                 grunt.log.writeln('pretest: run task(s)');
                 if (typeof task === 'function') {
-                    task(this, grunt);
+                    task = task(this, grunt);
                 }
-                else {
+                if ((typeof task === 'string' || Array.isArray(task)) && task.length) {
                     grunt.task.run(task);
                 }
+            }
+            else if (! task) {
+                grunt.log.writeln('pretest: no task is specified');
             }
         }
     });

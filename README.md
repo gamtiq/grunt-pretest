@@ -57,7 +57,10 @@ The following parameters are passed into the function:
 * reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
 * reference to `grunt` object
 
-The task described in `task` option will be run only if:
+If test function returns a non-empty string, a non-empty array or a function,
+the returned value will be used as task that should be run instead of `task` option.
+
+The task described in `task` option or returned from a test function will be run only if:
 
 * results of all tests have `true` value when `testConnect` option is `and`
 * result of any test has `true` value when `testConnect` option is `or`
@@ -73,11 +76,15 @@ Valid values are the following: `and`, `or` (case-insensitive). Any other value 
 Type: `String` | `Array of String` | `Function`
 
 Describes task(s) that should be run when test is passed.
+This option can be omitted if test function returns the necessary task(s).
 Each string should specify task in usual format (e.g. `concat:foo`, `bar:testing:123`).
 If a function is set as task, the following parameters will be passed into the function:
 
 * reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
 * reference to `grunt` object
+
+If task function returns a non-empty string or a non-empty array, the returned value will be used as argument for `grunt.task.run`
+(i.e. defines task(s) that should be run after the processed `pretest` task).
 
 ### Usage Example
 
@@ -90,6 +97,21 @@ grunt.initConfig({
             return grunt.file.isDir(grunt.config.get("configDir"));
         },
         task: 'concat:config_files'
+    }
+});
+```
+
+In the following example, the test function returns a task that should be run depending on value of `target` option.
+
+```js
+grunt.initConfig({
+    pretest: {
+        test: function(task, preTask, grunt) {
+            var target = grunt.option("target");
+            return target
+                    ? "prepare:" + (target === "prod" ? "product" : "dev")
+                    : false;
+        }
     }
 });
 ```
