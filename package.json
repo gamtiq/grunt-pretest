@@ -1,7 +1,7 @@
 {
   "name": "grunt-pretest",
   "description": "Grunt plugin to run task only when specified tests are passed",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/gamtiq/grunt-pretest",
   "author": {
     "name": "Denis Sikuler"
