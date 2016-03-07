@@ -4,6 +4,7 @@
 
 [![NPM version](https://badge.fury.io/js/grunt-pretest.png)](http://badge.fury.io/js/grunt-pretest)
 [![License](https://img.shields.io/github/license/gamtiq/grunt-pretest.svg)](https://raw.githubusercontent.com/gamtiq/grunt-pretest/master/LICENSE-MIT)
+[![Build Status](https://secure.travis-ci.org/gamtiq/grunt-pretest.png?branch=master)](http://travis-ci.org/gamtiq/grunt-pretest)
 
 ## Getting Started
 This plugin requires Grunt `>=0.4.0`
