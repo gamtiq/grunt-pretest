@@ -20,6 +20,7 @@ module.exports = function(grunt) {
             task = options.task,
             sConnector = options.testConnect,
             bRun = true,
+            data = {task: task, pretest: this, options: options},
             bAnd, bFuncTest, nI, nL, result, sType, test;
         
         grunt.log.writeln('pretest start');
@@ -45,7 +46,7 @@ module.exports = function(grunt) {
             for (nI = 0, nL = testList.length; nI < nL; nI++) {
                 test = testList[nI];
                 bFuncTest = typeof test === 'function';
-                if (! Boolean( result = (bFuncTest ? test(task, this, grunt) : test) )) {
+                if (! Boolean( result = (bFuncTest ? test(data, grunt) : test) )) {
                     grunt.log.writeln([
                                        'pretest: test #',
                                        (nI + 1),
@@ -84,7 +85,7 @@ module.exports = function(grunt) {
             if (bRun && task) {
                 grunt.log.writeln('pretest: run task(s)');
                 if (typeof task === 'function') {
-                    task = task(this, grunt);
+                    task = task(data, grunt);
                 }
                 if ((typeof task === 'string' || Array.isArray(task)) && task.length) {
                     grunt.task.run(task);

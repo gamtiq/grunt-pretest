@@ -54,8 +54,7 @@ Any test that is not a function is converted to boolean value.
 If test is a function, its result is used as test value.
 The following parameters are passed into the function:
 
-* value of `task` option (see below)
-* reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
+* reference to the data object (see below)
 * reference to `grunt` object
 
 If test function returns a non-empty string, a non-empty array or a function,
@@ -81,11 +80,19 @@ This option can be omitted if test function returns the necessary task(s).
 Each string should specify task in usual format (e.g. `concat:foo`, `bar:testing:123`).
 If a function is set as task, the following parameters will be passed into the function:
 
-* reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
+* reference to the data object (see below)
 * reference to `grunt` object
 
 If task function returns a non-empty string or a non-empty array, the returned value will be used as argument for `grunt.task.run`
 (i.e. defines task(s) that should be run after the processed `pretest` task).
+
+#### Data object
+
+Data object that is passed into test and task function has the following fields:
+
+* `task` - value of `task` option
+* `pretest` - reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
+* `options` - options of the processed `pretest` task
 
 ### Usage Example
 
@@ -94,7 +101,7 @@ In this example, the `concat` task will be run only if directory specified by `c
 ```js
 grunt.initConfig({
     pretest: {
-        test: function(task, preTask, grunt) {
+        test: function(data, grunt) {
             return grunt.file.isDir(grunt.config.get("configDir"));
         },
         task: 'concat:config_files'
@@ -107,7 +114,7 @@ In the following example, the test function returns a task that should be run de
 ```js
 grunt.initConfig({
     pretest: {
-        test: function(task, preTask, grunt) {
+        test: function(data, grunt) {
             var target = grunt.option("target");
             return target
                     ? "prepare:" + (target === "prod" ? "product" : "dev")

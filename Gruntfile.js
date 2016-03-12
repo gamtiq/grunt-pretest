@@ -81,10 +81,10 @@ module.exports = function(grunt) {
             test_func_pass: {
                 options: {
                     data: 1,
-                    test: function(task, preTask, grunt) {
-                        return preTask.options().data === 1 && grunt.config.get('p_true') === 'abc';
+                    test: function(data, grunt) {
+                        return data.options.data === 1 && grunt.config.get('p_true') === 'abc';
                     },
-                    task: function(preTask, grunt) {
+                    task: function(data, grunt) {
                         grunt.config.set('p_func_pass', 'ok');
                     }
                 }
@@ -92,7 +92,7 @@ module.exports = function(grunt) {
             
             test_func_fail: {
                 options: {
-                    test: function(task, preTask, grunt) {
+                    test: function(data, grunt) {
                         return grunt.config.get('p_func_fail');
                     },
                     task: 'set-param:p_func_fail:ok'
@@ -106,10 +106,10 @@ module.exports = function(grunt) {
                             1,
                             {},
                             '<%= p_true %>',
-                            function(task, preTask, grunt) {
-                                return preTask.options().data;
+                            function(data, grunt) {
+                                return data.options.data;
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return grunt.config.get('p_false') === 'skip';
                             }
                            ],
@@ -121,8 +121,8 @@ module.exports = function(grunt) {
                 options: {
                     test: [
                            true,
-                           function(task, preTask, grunt) {
-                               return task === 'set-param';
+                           function(data, grunt) {
+                               return data.task === 'set-param';
                            },
                            'true'
                            ],
@@ -136,8 +136,8 @@ module.exports = function(grunt) {
                             '',
                             0,
                             '<%= grunt.config.get("p_true_true_true") || "" %>',
-                            function(task, preTask, grunt) {
-                                return preTask.options().test.length > 3;
+                            function(data, grunt) {
+                                return data.options.test.length > 3;
                             },
                             false
                            ],
@@ -149,7 +149,7 @@ module.exports = function(grunt) {
             test_list_or_fail: {
                 options: {
                     test: [
-                           function(task, preTask, grunt) {
+                           function(data, grunt) {
                                return grunt.config.get('undefined-config-param');
                            },
                            false,
@@ -163,7 +163,7 @@ module.exports = function(grunt) {
             
             test_no_task: {
                 options: {
-                    test: function(task, preTask, grunt) {
+                    test: function(data, grunt) {
                         return true;
                     }
                 }
@@ -171,7 +171,7 @@ module.exports = function(grunt) {
             
             test_return_task: {
                 options: {
-                    test: function(task, preTask, grunt) {
+                    test: function(data, grunt) {
                         return 'set-param:p_return_task:ok';
                     }
                 }
@@ -179,7 +179,7 @@ module.exports = function(grunt) {
             
             test_override_task: {
                 options: {
-                    test: function(task, preTask, grunt) {
+                    test: function(data, grunt) {
                         return 'set-param:p_override_task:from-test';
                     },
                     task: 'set-param:p_override_task:usual'
@@ -189,19 +189,19 @@ module.exports = function(grunt) {
             test_return_task_list: {
                 options: {
                     test: [
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return 'set-param:p_return_task_list:a1';
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return true;
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return ['set-param:p_return_task_list:b2', 'set-param:p_return_task_list:c3'];
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return [];
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return 1;
                             }
                            ]
@@ -211,21 +211,21 @@ module.exports = function(grunt) {
             test_return_task_func: {
                 options: {
                     test: [
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return '';
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return null;
                             },
-                            function(task, preTask, grunt) {
-                                return function setParam(preTask, grunt) {
+                            function(data, grunt) {
+                                return function setParam(data, grunt) {
                                     grunt.config.set('p_return_task_func', 101);
                                 };
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return [];
                             },
-                            function(task, preTask, grunt) {
+                            function(data, grunt) {
                                 return -5;
                             }
                            ],
@@ -235,8 +235,8 @@ module.exports = function(grunt) {
             
             test_return_func_return_task: {
                 options: {
-                    test: function(task, preTask, grunt) {
-                        return function getTaskList(preTask, grunt) {
+                    test: function(data, grunt) {
+                        return function getTaskList(data, grunt) {
                             return ['set-param:p_return_func_return_task:e2', 'set-param:p_return_func_return_task:e4'];
                         };
                     }
