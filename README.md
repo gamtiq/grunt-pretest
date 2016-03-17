@@ -95,7 +95,7 @@ Data object that is passed into test and task function has the following fields:
 * `options` - options of the processed `pretest` task
 * `source` - a source item that is being processed
 
-### Usage Example
+### Usage examples
 
 In this example, the `concat` task will be run only if directory specified by `configDir` configuration parameter exists.
 
@@ -160,7 +160,7 @@ grunt.initConfig({
 });
 ```
 
-See `Gruntfile.js` for more examples.
+See [Gruntfile.js](https://github.com/gamtiq/grunt-pretest/blob/master/Gruntfile.js) for more examples.
 
 ## Related projects
 
@@ -171,6 +171,10 @@ See `Gruntfile.js` for more examples.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+* 1.0.0 / 2016-03-87
+    - Change parameters for test and task functions.
+    - Add ability to specify sources for which tests and tasks should be run (resolve #2).
 
 * 0.2.0 / 2016-03-07
     - Add support for Grunt 1.0.
