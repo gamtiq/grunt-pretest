@@ -344,6 +344,7 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    grunt.loadNpmTasks("grunt-push-release");
     
     grunt.registerTask('set-param', 'Set value of config parameter', function(sName, sValue) {
         grunt.config.set(sName, sValue);
@@ -355,6 +356,11 @@ module.exports = function(grunt) {
     
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
+    
+    // Release tasks
+    grunt.registerTask("release", ["push"]);
+    grunt.registerTask("release-minor", ["push:minor"]);
+    grunt.registerTask("release-major", ["push:major"]);
     
     // For Travis CI service
     grunt.registerTask("travis", ["default"]);
