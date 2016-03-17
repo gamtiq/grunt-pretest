@@ -172,9 +172,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-* 1.0.0 / 2016-03-87
+* 1.0.0 / 2016-03-18
     - Change parameters for test and task functions.
-    - Add ability to specify sources for which tests and tasks should be run (resolve #2).
+    - Add ability to specify sources for which tests and tasks should be run (resolve [#2](https://github.com/gamtiq/grunt-pretest/issues/2)).
 
 * 0.2.0 / 2016-03-07
     - Add support for Grunt 1.0.
