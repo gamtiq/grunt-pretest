@@ -157,5 +157,53 @@ exports.pretest = {
         test.strictEqual(grunt.config.get('p_return_func_return_task'), 'e4', 'should run tasks.');
     
         test.done();
+    },
+    
+    test_task_return_task: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_task_return_task'), 'value', 'should run task.');
+    
+        test.done();
+    },
+    
+    test_task_return_task_list: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_task_return_task_list'), 'two', 'should run tasks.');
+    
+        test.done();
+    },
+    
+    test_source_file: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_source_file'), 3, 'should run task for selected files.');
+    
+        test.done();
+    },
+    
+    test_source_exists: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_source_exists'), 4, 'should run task for existent paths.');
+    
+        test.done();
+    },
+    
+    test_source_not_found: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_source_not_found'), 'not found', 'should not run task.');
+    
+        test.done();
+    },
+    
+    test_source_empty: function(test) {
+        test.expect(1);
+    
+        test.strictEqual(grunt.config.get('p_source_empty'), 0, 'should not run task.');
+    
+        test.done();
     }
 };

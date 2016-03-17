@@ -9,6 +9,8 @@
 'use strict';
 
 module.exports = function(grunt) {
+    var fs = require('fs'),
+        path = require('path');
 
     // Project configuration.
     grunt.initConfig({
@@ -41,6 +43,12 @@ module.exports = function(grunt) {
         p_return_task_list: 123,
         p_return_task_func: null,
         p_return_func_return_task: 'e1',
+        p_task_return_task: '',
+        p_task_return_task_list: 0,
+        p_source_file: 0,
+        p_source_exists: 0,
+        p_source_not_found: 'not found',
+        p_source_empty: 0,
         
         // Configuration to be run (and then tested).
         pretest: {
@@ -239,6 +247,85 @@ module.exports = function(grunt) {
                         return function getTaskList(data, grunt) {
                             return ['set-param:p_return_func_return_task:e2', 'set-param:p_return_func_return_task:e4'];
                         };
+                    }
+                }
+            },
+            
+            test_task_return_task: {
+                options: {
+                    test: function(data, grunt) {
+                        return true;
+                    },
+                    task: function(data, grunt) {
+                        return 'set-param:p_task_return_task:value';
+                    }
+                }
+            },
+            
+            test_task_return_task_list: {
+                options: {
+                    test: function(data, grunt) {
+                        return true;
+                    },
+                    task: function(data, grunt) {
+                        return ['set-param:p_task_return_task_list:one', 'set-param:p_task_return_task_list:two'];
+                    }
+                }
+            },
+            
+            test_source_file: {
+                src: ['*', '.*'],
+                options: {
+                    test: function(data, grunt) {
+                        var sSource = data.source,
+                            sExt = path.extname(sSource);
+                        return sExt.substring(0, 3) === '.js' || sSource.substring(0, 3) === '.js';
+                    },
+                    task: function(data, grunt) {
+                        grunt.config.set('p_source_file', grunt.config.get('p_source_file') + 1);
+                    }
+                }
+            },
+            
+            test_source_exists: {
+                src: ['test', 'abcde', 'package.json', 'non-existent', 'Gruntfile.js', 'tasks', 'json.json'],
+                options: {
+                    test: function(data, grunt) {
+                        var bResult = true;
+                        try {
+                            fs.statSync(data.source);
+                        }
+                        catch (e) {
+                            bResult = false;
+                        }
+                        return bResult;
+                    },
+                    task: function(data, grunt) {
+                        grunt.config.set('p_source_exists', grunt.config.get('p_source_exists') + 1);
+                    }
+                }
+            },
+            
+            test_source_not_found: {
+                src: ['*.abcde'],
+                options: {
+                    test: function(data, grunt) {
+                        return true;
+                    },
+                    task: function(data, grunt) {
+                        grunt.config.set('p_source_not_found', 'found');
+                    }
+                }
+            },
+            
+            test_source_empty: {
+                src: [],
+                options: {
+                    test: function(data, grunt) {
+                        return true;
+                    },
+                    task: function(data, grunt) {
+                        grunt.config.set('p_source_empty', 'run');
                     }
                 }
             }

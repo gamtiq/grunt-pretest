@@ -93,6 +93,7 @@ Data object that is passed into test and task function has the following fields:
 * `task` - value of `task` option
 * `pretest` - reference to the object that represents the processed `pretest` task (see [Inside Tasks](http://gruntjs.com/api/inside-tasks) for available properties)
 * `options` - options of the processed `pretest` task
+* `source` - a source item that is being processed
 
 ### Usage Example
 
@@ -101,10 +102,14 @@ In this example, the `concat` task will be run only if directory specified by `c
 ```js
 grunt.initConfig({
     pretest: {
-        test: function(data, grunt) {
-            return grunt.file.isDir(grunt.config.get("configDir"));
-        },
-        task: 'concat:config_files'
+        configDir: {
+            options: {
+                test: function(data, grunt) {
+                    return grunt.file.isDir(grunt.config.get("configDir"));
+                },
+                task: 'concat:config_files'
+            }
+        }
     }
 });
 ```
@@ -114,11 +119,42 @@ In the following example, the test function returns a task that should be run de
 ```js
 grunt.initConfig({
     pretest: {
-        test: function(data, grunt) {
-            var target = grunt.option("target");
-            return target
-                    ? "prepare:" + (target === "prod" ? "product" : "dev")
-                    : false;
+        configDir: {
+            options: {
+                test: function(data, grunt) {
+                    var target = grunt.option("target");
+                    return target
+                            ? "prepare:" + (target === "prod" ? "product" : "dev")
+                            : false;
+                }
+            }
+        }
+    }
+});
+```
+
+It is possible to specify sources for which tests and tasks should be run.
+
+```js
+grunt.initConfig({
+    pretest: {
+        sourceList: {
+            src: ["a.json", "b.xml", "c.data"],
+            options: {
+                test: function(data, grunt) {
+                    var runTask = true;
+                    try {
+                        fs.statSync(data.source);
+                    }
+                    catch (e) {
+                        runTask = false;
+                    }
+                    return runTask;
+                },
+                task: function(data, grunt) {
+                    return "some-task:" + data.source;
+                }
+            }
         }
     }
 });
